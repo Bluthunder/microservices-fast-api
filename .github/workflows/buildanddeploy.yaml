@@ -1,0 +1,10 @@
+name: Build_And_Deploy
+on: workflow_dispatch
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@v4
+      - name: Install Dependencies
+        run:

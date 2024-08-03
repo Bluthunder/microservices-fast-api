@@ -5,13 +5,16 @@ name = "pypi"
 
 [packages]
 fastapi = "*"
-uvicorn = "*"
 sqlalchemy = "*"
 databases = "*"
 psycopg2 = "*"
 
 [dev-packages]
+uvicorn = "*"
 
 [requires]
 python_version = "3.12"
 python_full_version = "3.12.3"
+
+[scripts]
+

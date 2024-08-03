@@ -2,9 +2,11 @@ from sqlalchemy import (Column, Integer, MetaData, String, Table, create_engine,
 
 from databases import Database
 
-DATABASE_URL = 'postgresql://postgres:pass123@localhost:5432/movie_db'
+import os
 
-engine = create_engine(DATABASE_URL)
+# DATABASE_URL = 'postgresql://postgres:pass123@localhost:5432/movie_db'
+DATABASE_URI = os.getenv('DATABASE_URI')
+engine = create_engine(DATABASE_URI)
 metadata = MetaData()
 
 movies = Table(
@@ -14,7 +16,7 @@ movies = Table(
     Column('name', String(30)),
     Column('plot', String),
     Column('genres', ARRAY(String)),
-    Column('casts', ARRAY(String))
+    Column('casts_id', ARRAY(Integer))
 )
 
-database = Database(DATABASE_URL)
+database = Database(DATABASE_URI)

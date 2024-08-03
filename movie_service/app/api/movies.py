@@ -32,6 +32,9 @@ async def get_movie(id: int):
 
 @movies.post('/', status_code=201)
 async def add_movie(payload: MovieIn):
+    for cast_id in payload.casts_id:
+        if not is_cast_present(cast_id):
+            raise HTTPException(status_code=404, detail=f'Cast with id: {cast_id} not found')
     movie_id = await db_manager.add_movie(payload)
     response = {
         'id': movie_id,
@@ -47,10 +50,12 @@ async def update_movie(id: int, payload: MovieIn):
         raise HTTPException(status_code=404, detail="Movie Not Found")
 
     update_data = payload.dict(exclude_unset=True)
+    if 'cast_id'in update_data:
+        for cast_id in payload.casts_id:
+            if not is_cast_present(cast_id):
+                raise HTTPException(status_code=404, detail=f"Cast with cast id: {cast_id} is not found")
     movie_in_db = MovieIn(**movie)
-
-    updated_movie = movie_in_db.copy(update = update_data)
-
+    updated_movie = movie_in_db.copy(update=update_data)
     return await db_manager.update_movie(id, updated_movie)
 
 
